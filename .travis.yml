@@ -1,5 +1,5 @@
 before_script:
-  - npm insall
+  - npm install
 script:
   - tsc; npm test
 language: node_js
