@@ -77,7 +77,24 @@ class ProductController{
 ```
 in this example we controller ```ProductController``` that points to ```/product``` route and has two methods ```getProduct``` and ```addProduct``` :
 
-the first method ```getProduct``` has ```@Get("/:id")``` decorator on it, this means that it points to the ```/product/anything``` route .The route parameter in this case ```id``` can be accessed as a parameter of ```getProduct``` method.
+the first method ```getProduct``` has ```@Get("/:id")``` decorator on it, this means that it points to the ```/product/anything``` route .The route parameter in this case ```id``` can be accessed as a parameter of ```getProduct``` method. The ```req``` and ```res``` objects are the same as those in Express.js .
+
+the second method ```addProduct``` points to the ```/product/``` route and handles requests of type ```POST```. it has four parameters the last three ones are ```id```, ```name``` and ```price``` ,each parameter holds the value of the property that has the same name in the request body , fro example if the client send the object below :
+
+```json
+{"id":12,"name":"nutella","price":20}
+```
+
+the result :
+```ts
+ @Post("/")
+    addProduct(res : Response, id : number, name : string, price : number, other : string){
+        console.log(id); // 12
+        console.log(name); // nutella
+        console.log(price); // 12
+        console.log(other); // undefined
+    }
+````
  
  
  - ```@Service``` : class Decorator used to indicates that the class is injectable
