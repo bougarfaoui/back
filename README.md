@@ -21,7 +21,7 @@ Start your app at ``` http://localhost:3000/ ```
 $ npm start
 ```
 ## Quick Tutorial
-Example 1:
+Example 1 (simple GET request):
 ```ts
 import {Controller ,Get ,Route } from "back-js";
 
@@ -35,6 +35,11 @@ class HomeController{
     greet() {
         console.log("hello World");
     }
+    
+    @Get("/greet")
+    anotherGreet() {
+        console.log("another hello World");
+    }
 } 
 
 ```
@@ -42,63 +47,37 @@ class HomeController{
  - ```@Route``` : class Decorator used to specify the route handled by the controller.
  - ```@Get``` : method Decorator, when used on a method ,this method will handle all the GET requests corresponding to its route.
 
+in this example we created a controller ```HomeController``` that handles all requests coming from ```/``` route, inside the controller we have two methods ```greet``` and ```anotherGreet```, these methods point to ```/``` and ```/greet``` respectively. We used ```@Get(route)``` to indicate that the method will handle any web request ```GET``` coming from the route specified in the Decorator.
 
-Example 2:
+
+
+Example 2 (Request ,Reponse and Route parameter):
 ```ts
-import {Controller,Service ,Get ,Post,Route ,Request ,Response, RequestBody, ResponseBody } from "back-js";
+import {Controller ,Get ,Post,Route ,Request ,Response } from "back-js";
 
-class Product{
-    constructor(
-        private id : number,
-        private label : string,
-        private price : number,
-    ){}
-}
-
-@Service
-class ProductService{
-    
-    constructor(){}
-
-    getProduct(id : number) : Promise<Product>{
-        return new Promise((resolve)=>{
-            resolve(new Product(1,"Nutella",45));
-        });
-    }
-    
-    getProductName(id : number) : string{
-      return "Nutella";
-    }
-
-} 
 
 @Controller
 @Route("/product")
 class ProductController{
 
-    constructor(
-        private productService : ProductService
-    ){}
+    constructor(){}
 
     @Get("/:id")
-    @ResponseBody
-    getProduct(req : Request ,res : Response, id : number) : Promise<Product> {
-        return this.productService.getProduct(id);
-    }
-
-    @Get("/name/:id")
-    @ResponseBody
-    getProduct(req : Request ,res : Response, id : number) : string {
-        return this.productService.getProductName(id);
+    getProduct(req : Request ,res : Response, id : number) {
+        console.log(id);
+        // do something
+        res.send("not found");
     }
     
     @Post("/")
-    addProduct(@RequestBody product){
-        console.log(product);
+    addProduct(res : Response,id : number, name : string, price : number){
+        res.end("done");
     }
 
 }
 ```
+in this example we controller ```ProductController``` that points to ```/product``` route and has two methods ```getProduct``` and ```addProduct``` :
+     - the first method ```getProduct``` has ```@Get("/:id")``` decorator on it, this means that it points to the ```/product/anything``` route .The route parameter in this case ```id``` can be accessed as a parameter of ```getProduct``` method.
  - ```@Service``` : class Decorator used to indicates that the class is injectable
  - ```@ResponseBody``` : method Decorator , indicates that the method return value should be bound to the web response body (if the return value is a promise the data holded by this promise will be sent).
  - ```@RequestBody``` : parameter Decorator , indicates that the method parameter should be bound to the web request body
