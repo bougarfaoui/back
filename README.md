@@ -47,6 +47,14 @@ Example 2:
 ```ts
 import {Controller,Service ,Get ,Post,Route ,Request ,Response, RequestBody, ResponseBody } from "back-js";
 
+class Product{
+    constructor(
+        private id : number,
+        private label : string,
+        private price : number,
+    ){}
+}
+
 @Service
 class ProductService{
     
@@ -77,12 +85,21 @@ class ProductController{
     getProduct(req : Request ,res : Response, id : number) : Promise<Product> {
         return this.productService.getProduct(id);
     }
+
+    @Get("/name/:id")
+    @ResponseBody
+    getProduct(req : Request ,res : Response, id : number) : string {
+        return this.productService.getProductName(id);
+    }
     
-    // /product/add/
-    @Post("/add")
+    @Post("/")
     addProduct(@RequestBody product){
         console.log(product);
     }
 
 }
 ```
+ - ```@Service``` : class Decorator used to indicates that the class is injectable
+ - ```@ResponseBody``` : method Decorator , indicates that the method return value should be bound to the web response body (if the return value is a promise the data holded by this promise will be sent).
+ - ```@RequestBody``` : parameter Decorator , indicates that the method parameter should be bound to the web request body
+ 
