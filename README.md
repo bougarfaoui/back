@@ -94,19 +94,21 @@ the result :
         console.log(price); // 20
         console.log(other); // undefined
     }
-````
+```
  
  ### Example 3 (@RequestBody, @ResponseBody, @Service)
  
- ```
- 
+ ```ts
+    import {Controller,Service ,Get ,Post,Route ,Request ,Response, RequestBody, ResponseBody } from "back-js";
+    
     class Product{
         constructor(
             private id : number,
             private label : string,
             private price : number,
         ){}
-    }    
+    }
+    
     @Service
     class ProductService{
     
@@ -119,10 +121,35 @@ the result :
         }
 
     }
+   
+    @Controller
+    @Route("/product")
+    class ProductController{
+    
+        constructor(
+            private productService : ProductService
+        ){}
+
+        @Get("/")
+        @ResponseBody
+        getProduct(req : Request ,res : Response ) : Promise<Product> {
+            return this.productService.getProduct();
+        }   
+
+        @Post("/")
+        @ResponseBody
+        addProduct(@RequestBody product) : string{
+            console.log(product);
+            return "done";
+        }
+    } 
  
  ```
  - ```@Service``` : class Decorator used to indicates that the class is injectable
  - ```@ResponseBody``` : method Decorator , indicates that the method return value should be bound to the web response body (if the return value is a promise the data holded by this promise will be sent).
  - ```@RequestBody``` : parameter Decorator , indicates that the method parameter should be bound to the web request body
  
- 
+in this example we have ```ProductController``` with two methods : 
+the first one ```getProduct``` it has ```@ResponseBody``` decorator on it and returns a promise this means that the value holded in the promise will be sent in the web response body.
+
+the second one ```addProduct``` has ```@ResponseBody``` decorator on its parameter ```product``` this means that web request body will be bound to the ```product``` parameter.
