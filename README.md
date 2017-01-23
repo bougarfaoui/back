@@ -149,7 +149,8 @@ the result :
  - ```@ResponseBody``` : method Decorator , indicates that the method return value should be bound to the web response body (if the return value is a promise the data holded by this promise will be sent).
  - ```@RequestBody``` : parameter Decorator , indicates that the method parameter should be bound to the web request body
  
-in this example we have ```ProductController``` with two methods : 
+in this example we have a controller```ProductController``` with one dependency ```productService``` that will be injected automatically by the framework,this controller has also two methods :
+
 the first one ```getProduct``` it has ```@ResponseBody``` decorator on it and returns a promise this means that the value holded in the promise will be sent in the web response body.
 
 the second one ```addProduct``` has ```@ResponseBody``` decorator on its parameter ```product``` this means that web request body will be bound to the ```product``` parameter.
