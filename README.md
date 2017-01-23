@@ -75,7 +75,7 @@ class ProductController{
 
 }
 ```
-in this example we controller ```ProductController``` that points to ```/product``` route and has two methods ```getProduct``` and ```addProduct``` :
+Here we have acontroller ```ProductController``` that points to ```/product``` route and has two methods ```getProduct``` and ```addProduct``` :
 
 the first method ```getProduct``` has ```@Get("/:id")``` decorator on it, this means that it points to the ```/product/anything``` route .The route parameter in this case ```id``` can be accessed as a parameter of ```getProduct``` method. The ```req``` and ```res``` objects are the same as those in Express.js .
 
