@@ -1,5 +1,5 @@
 # back 
-Back.js : Small MVC Framework for Node.js written in Typescript and built on top of Express.js
+:sparkles: Back.js : Small MVC Framework for Node.js written in Typescript and built on top of Express.js :sparkles:
 
 [![Build Status](https://travis-ci.org/bougarfaoui/back.svg?branch=master)](https://travis-ci.org/bougarfaoui/back)
 
@@ -159,7 +159,7 @@ the second one ```addProduct``` has ```@ResponseBody``` decorator on its paramet
 
 1- Fork
 2- Do your magic
-3- pull request
+3- pull request :smile:
 
 ## License
 
