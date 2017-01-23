@@ -154,3 +154,13 @@ in this example we have a controller```ProductController``` with one dependency 
 the first one ```getProduct``` it has ```@ResponseBody``` decorator on it and returns a promise this means that the value holded in the promise will be sent in the web response body.
 
 the second one ```addProduct``` has ```@ResponseBody``` decorator on its parameter ```product``` this means that web request body will be bound to the ```product``` parameter.
+
+## Contribution
+
+1- Fork
+2- Do your magic
+3- pull request
+
+## License
+
+MIT
