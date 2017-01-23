@@ -87,17 +87,42 @@ the second method ```addProduct``` points to the ```/product/``` route and handl
 
 the result :
 ```ts
- @Post("/")
+    @Post("/")
     addProduct(res : Response, id : number, name : string, price : number, other : string){
         console.log(id); // 12
         console.log(name); // nutella
-        console.log(price); // 12
+        console.log(price); // 20
         console.log(other); // undefined
     }
 ````
  
+ ### Example 3 (@RequestBody, @ResponseBody, @Service)
  
+ ```
+ 
+    class Product{
+        constructor(
+            private id : number,
+            private label : string,
+            private price : number,
+        ){}
+    }    
+    @Service
+    class ProductService{
+    
+        constructor(){}
+
+        getProduct() : Promise<Product>{
+            return new Promise((resolve)=>{
+                resolve(new Product(1,"Bimo",45));
+            });
+        }
+
+    }
+ 
+ ```
  - ```@Service``` : class Decorator used to indicates that the class is injectable
  - ```@ResponseBody``` : method Decorator , indicates that the method return value should be bound to the web response body (if the return value is a promise the data holded by this promise will be sent).
  - ```@RequestBody``` : parameter Decorator , indicates that the method parameter should be bound to the web request body
+ 
  
