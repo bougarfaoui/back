@@ -1,7 +1,6 @@
 
 <img alt="Back" title="Back" src="http://gdurl.com/58Bm" width="280" height="100">
 
-# back 
 :sparkles: Back.js : Small MVC Framework for Node.js written in Typescript and built on top of Express.js :sparkles:
 
 [![Build Status](https://travis-ci.org/bougarfaoui/back.svg?branch=master)](https://travis-ci.org/bougarfaoui/back)
@@ -99,7 +98,7 @@ the result :
     }
 ```
  
- ### Example 3 (@RequestBody, @ResponseBody, @Service)
+### Example 3 (@RequestBody, @ResponseBody, @Service):
  
  ```ts
     import {Controller,Service ,Get ,Post,Route ,Request ,Response, RequestBody, ResponseBody } from "back-js";
