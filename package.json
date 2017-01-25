@@ -1,11 +1,11 @@
 {
-  "name": "back",
-  "version": "1.0.0",
-  "description": "",
+  "name": "back-js",
+  "version": "1.0.3",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "tsc && mocha"
+    "test": "mocha"
   },
-  "author": "",
+  "author": "Bougarfaoui El Houcine",
   "license": "ISC",
   "dependencies": {
     "@types/es6-promise": "0.0.32",
@@ -20,5 +20,18 @@
     "reflect-metadata": "^0.1.9",
     "supertest": "^2.0.1",
     "typescript": "^2.1.5"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bougarfaoui/back.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bougarfaoui/back/issues"
+  },
+  "homepage": "https://github.com/bougarfaoui/back#readme",
+  "description": ""
 }

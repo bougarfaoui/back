@@ -1,0 +1,7 @@
+ 
+
+#modules
+node_modules
+
+#build tools
+.travis.yml

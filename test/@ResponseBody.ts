@@ -1,4 +1,4 @@
-import {Back,Controller ,Service,Get ,Post,Put,Route ,Request ,Response, RequestBody, ResponseBody } from "../back";
+import {Back,Controller ,Service,Get ,Post,Put,Route ,Request ,Response, RequestBody, ResponseBody } from "../index";
 var request = require('supertest')
   , assert = require('assert');
 import "mocha";

@@ -1,15 +1,23 @@
 
 
+/**
+ * Http request methods
+ */
 export enum HttpRequestMethod {
     GET ,
     POST ,
     PUT ,
-    DELETE
+    DELETE,
+    ALL
 };
 
 /**
  * I use class instead of interface because TypeScript only supports
  * basic type serialization (Boolean , Number , class , ...)
+ */
+
+/**
+ * Request has the same properties of Request object in Express.js
  */
 export class Request {
     app : any;
@@ -42,7 +50,9 @@ export class Request {
     range : Function;
 }
 
-
+/**
+ * Response has the same properties of Response object in Express.js
+ */
 export class Response {
     app : any;
     headersSent : boolean; 

@@ -5,8 +5,10 @@ import {Response, Request ,HttpRequestMethod} from "../_http/http";
 import {Container} from "../container";
 
 
- 
-
+/**
+ * @wahtItDoes holds all information about the method of a controller
+ * 
+ */
 export class MethodHandler{
     route : string;
     methodName : string;

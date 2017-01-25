@@ -7,7 +7,17 @@ import { HttpRequestMethod } from "../_http/http";
 import "reflect-metadata";
 import getFunctionParametersNames =  require("get-parameter-names");
 
-
+/**
+ * @whatItDoes class Decorator used to mark a class as a controller
+ * @howToUse
+ * ```
+ * @Controller
+ * class homeController{
+ *  // code here
+ * }
+ * ```
+ * 
+ */
 export function Controller(target : Function){
       
     const dependencies = Reflect.getMetadata("design:paramtypes", target);
@@ -21,10 +31,20 @@ export function Controller(target : Function){
     }
     
     Container.components[controllerName] = {_constructor : target, dependencies : dependencies};
-    controllerHandler.controller = {target : target, dependencies : dependencies};
 }
 
 
+/**
+ * @whatItDoes class Decorator used to attach a route to the controller
+ * @howToUse
+ * ```
+ * @Controller
+ * @Route("/home")
+ * class homeController{
+ *  // code here
+ * }
+ * ```  
+ */
 export function Route(route : string){
     return (target : Function) => {
         
@@ -45,23 +65,46 @@ export function Route(route : string){
 
 
 
-
-
+/**
+ * @whatItDoes class Decorator used to indicates that the class is injectable
+ * @howToUse
+ * ```
+ * @Service
+ * class productService{
+ *  // code here
+ * }
+ * ```
+ * @description
+ * A class with decorator can injected in other class's constructor
+ */
 export function Service(target : Function){
     const dependencies = Reflect.getMetadata("design:paramtypes", target);
     Container.components[target['name']] = {_constructor : target , dependencies : dependencies };
 }
 
+/**
+ * @whatItDoes the as the Service decorator
+ * @howToUse
+ * ```
+ * @Injectable
+ * class productService{
+ *  // code here
+ * }
+ * ```
+ * @description
+ * A class with decorator can injected in other class's constructor
+ */
 export function Injectable(target : Function){
     const dependencies = Reflect.getMetadata("design:paramtypes", target);
     Container.components[target['name']] = {_constructor : target , dependencies : dependencies };
 }
 
-
-
-
+/**
+ * @whatItDoes helper function used by {@Post, @Get, @Put, @Delete} decorators
+ */
 function helperFunction(target: any, methodName: string, route: string, httpRequestMethod : HttpRequestMethod){
-     /**
+    
+    /**
     * looking for the method's controllerHandler  
     */
     let controllerName = target.constructor['name'];
@@ -78,15 +121,13 @@ function helperFunction(target: any, methodName: string, route: string, httpRequ
     }
     
     /**
-    * get parameters of method
+    * get parameters of the method
     */
     const paramsTypes = Reflect.getMetadata("design:paramtypes", target, methodName);
-     
-   
-    /**
-    * handlerMethod contains all information about the method
-    */
     
+    /**
+    * attach the method information to the methodHandler
+    */
     methodHandler.route = route;
     methodHandler.methodName = methodName;
     methodHandler.paramsTypes = paramsTypes;
@@ -94,20 +135,42 @@ function helperFunction(target: any, methodName: string, route: string, httpRequ
     methodHandler.controller = target.constructor['name'];
     methodHandler.httpRequestMethod = httpRequestMethod;
     
-   
     controllerHandler.methodsHandlers[methodName] = methodHandler;
     Container.controllerHandlers[controllerName] = controllerHandler;
 }
 
-
+/**
+ * @whatItDoes method decorator indicates the route handled by the method
+ * @howToUse
+ * ```
+ * @Get("/user/:id")
+ * getUser(req : Request, res : Response){
+ *  // code here
+ * }
+ * ```
+ * @description
+ * the method will handle all the requests of type GET coming from the route
+ * specified in its parameter
+ */
 export function Get(route: string) {
-    
     return  (target: any, methodName: string) => {
         helperFunction(target,methodName,route,HttpRequestMethod.GET);
     };
 }
 
-
+/**
+ * @whatItDoes method decorator indicates the route handled by the method
+ * @howToUse
+ * ```
+ * @Post("/user")
+ * addUser(req : Request, res : Response){
+ *  // code here
+ * }
+ * ```
+ * @description
+ * the method will handle all the requests of type POST coming from the route
+ * specified in its parameter
+ */
 export function Post(route: string) {
     
     return  (target: any, methodName: string) => {
@@ -115,7 +178,19 @@ export function Post(route: string) {
     };
 }
 
-
+/**
+ * @whatItDoes method decorator indicates the route handled by the method
+ * @howToUse
+ * ```
+ * @Put("/user")
+ * updateUser(req : Request, res : Response){
+ *  // code here
+ * }
+ * ```
+ * @description
+ * the method will handle all the requests of type PUT coming from the route
+ * specified in its parameter
+ */
 export function Put(route: string) {
     
     return  (target: any, methodName: string) => {
@@ -123,7 +198,19 @@ export function Put(route: string) {
     };
 }
 
-
+/**
+ * @whatItDoes method decorator indicates the route handled by the method
+ * @howToUse
+ * ```
+ * @Delete("/user/:id")
+ * deleteUser(req : Request, res : Response){
+ *  // code here
+ * }
+ * ```
+ * @description
+ * the method will handle all the requests of type DELETE coming from the route
+ * specified in its parameter
+ */
 export function Delete(route: string) {
     
     return  (target: any, methodName: string) => {
@@ -131,7 +218,19 @@ export function Delete(route: string) {
     };
 }
 
-
+/**
+ * @whatItDoes parameter decorator indicates that the parameter should be bound
+ * to the web request body 
+ * @howToUse
+ * ```
+ * @Put("/user")
+ * updateUser(req : Request, res : Response, @RequestBody newUser){
+ *  // code here
+ * }
+ * ```
+ * @description
+ * the parameter will be bound to the request body
+ */
 export function RequestBody(target: Object, methodName: string, parameterIndex: number) : void{
     let controllerName = target.constructor['name'];
     let controllerHandler = Container.controllerHandlers[controllerName];
@@ -153,6 +252,22 @@ export function RequestBody(target: Object, methodName: string, parameterIndex: 
    
 }
 
+/**
+ * @whatItDoes method decorator indicates the return value should be bound
+ * to the web response body
+ * @howToUse
+ * ```
+ * @Get("/user/:id")
+ * @ResponseBody
+ * updateUser(req : Request,id : number) : User{
+ *  // code here
+ *  return new User(125,"jhon",35);
+ * }
+ * ```
+ * @description
+ * the return value will be bound to the response body, if the return value 
+ * is type of Promise the holded value will be sent
+ */
 export function ResponseBody(target: any, methodName: string) : void{
     let controllerName = target.constructor['name'];
     let controllerHandler = Container.controllerHandlers[controllerName];
