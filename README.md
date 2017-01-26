@@ -6,7 +6,7 @@
 [![Build Status](https://travis-ci.org/bougarfaoui/back.svg?branch=master)](https://travis-ci.org/bougarfaoui/back)
 
 back.js is a new MVC framework for node written totally in Typescript and inspired from the popular spring MVC in java,
-it has a system of dependency injection and it's easy to use. Back.js is very new, it's not ready for production and needs a lot of contributions.
+it has a system of dependency injection and it's easy to use. Back.js is very new, it's not ready for production yet and needs some contributions.
 
 ## Quick start
 
