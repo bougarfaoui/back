@@ -1,4 +1,3 @@
-
 import { Container } from "../container";
 import { ControllerHandler } from "../handlers/controllerHandler";
 import { MethodHandler } from "../handlers/methodHandler";
@@ -12,27 +11,26 @@ import getFunctionParametersNames =  require("get-parameter-names");
  * @howToUse
  * ```
  * @Controller
- * class homeController{
+ * class homeController {
  *  // code here
  * }
  * ```
- * 
  */
-export function Controller(target : Function){
-      
+export function Controller(target: Function) {
     const dependencies = Reflect.getMetadata("design:paramtypes", target);
-   
-    let controllerName = target['name'];
 
+    let controllerName = target["name"];
     let controllerHandler = Container.controllerHandlers[controllerName];
-    
-    if(!controllerHandler){
+
+    if (!controllerHandler) {
         controllerHandler = new ControllerHandler();
     }
-    
-    Container.components[controllerName] = {_constructor : target, dependencies : dependencies};
-}
 
+    Container.components[controllerName] = {
+        _constructor: target,
+        dependencies: dependencies
+    };
+}
 
 /**
  * @whatItDoes class Decorator used to attach a route to the controller
@@ -40,46 +38,45 @@ export function Controller(target : Function){
  * ```
  * @Controller
  * @Route("/home")
- * class homeController{
+ * class homeController {
  *  // code here
  * }
- * ```  
+ * ```
  */
-export function Route(route : string){
-    return (target : Function) => {
-        
-        if(!route){
+export function Route(route: string) {
+    return (target: Function) => {
+        if (!route) {
             throw "Route must not be Empty";
         }
 
-        let controllerName = target['name'];
+        let controllerName = target["name"];
         let controllerHandler = Container.controllerHandlers[controllerName];
-        
-        if(!controllerHandler){
+
+        if (!controllerHandler) {
             controllerHandler = new ControllerHandler();
         }
 
         controllerHandler.route = route;
-    }
+    };
 }
-
-
 
 /**
  * @whatItDoes class Decorator used to indicates that the class is injectable
  * @howToUse
  * ```
  * @Service
- * class productService{
+ * class productService {
  *  // code here
  * }
  * ```
  * @description
  * A class with decorator can injected in other class's constructor
  */
-export function Service(target : Function){
-    const dependencies = Reflect.getMetadata("design:paramtypes", target);
-    Container.components[target['name']] = {_constructor : target , dependencies : dependencies };
+export function Service(target: Function) {
+    Container.components[target["name"]] = {
+        _constructor: target,
+        dependencies: Reflect.getMetadata("design:paramtypes", target);
+    };
 }
 
 /**
@@ -87,54 +84,50 @@ export function Service(target : Function){
  * @howToUse
  * ```
  * @Injectable
- * class productService{
+ * class productService {
  *  // code here
  * }
  * ```
  * @description
  * A class with decorator can injected in other class's constructor
  */
-export function Injectable(target : Function){
-    const dependencies = Reflect.getMetadata("design:paramtypes", target);
-    Container.components[target['name']] = {_constructor : target , dependencies : dependencies };
+export function Injectable(target: Function) {
+    Container.components[target["name"]] = {
+        _constructor: target,
+        dependencies: Reflect.getMetadata("design:paramtypes", target);
+    };
 }
 
 /**
  * @whatItDoes helper function used by {@Post, @Get, @Put, @Delete} decorators
  */
-function helperFunction(target: any, methodName: string, route: string, httpRequestMethod : HttpRequestMethod){
-    
+function helperFunction(target: any, methodName: string, route: string, httpRequestMethod: HttpRequestMethod) {
     /**
-    * looking for the method's controllerHandler  
-    */
-    let controllerName = target.constructor['name'];
+     * looking for the method's controllerHandler
+     */
+    let controllerName = target.constructor["name"];
     let controllerHandler = Container.controllerHandlers[controllerName];
-    
-    if(!controllerHandler){
+
+    if (!controllerHandler) {
        controllerHandler = new ControllerHandler();
     }
 
     let methodHandler = controllerHandler.methodsHandlers[methodName];
 
-    if(!methodHandler){
+    if (!methodHandler) {
         methodHandler = new MethodHandler();
     }
-    
+
     /**
-    * get parameters of the method
-    */
-    const paramsTypes = Reflect.getMetadata("design:paramtypes", target, methodName);
-    
-    /**
-    * attach the method information to the methodHandler
-    */
+     * attach the method information to the methodHandler
+     */
     methodHandler.route = route;
     methodHandler.methodName = methodName;
-    methodHandler.paramsTypes = paramsTypes;
+    methodHandler.paramsTypes = Reflect.getMetadata("design:paramtypes", target, methodName);
     methodHandler.paramsNames = getFunctionParametersNames(target[methodName]);
-    methodHandler.controller = target.constructor['name'];
+    methodHandler.controller = target.constructor["name"];
     methodHandler.httpRequestMethod = httpRequestMethod;
-    
+
     controllerHandler.methodsHandlers[methodName] = methodHandler;
     Container.controllerHandlers[controllerName] = controllerHandler;
 }
@@ -144,7 +137,7 @@ function helperFunction(target: any, methodName: string, route: string, httpRequ
  * @howToUse
  * ```
  * @Get("/user/:id")
- * getUser(req : Request, res : Response){
+ * getUser(req: Request, res: Response) {
  *  // code here
  * }
  * ```
@@ -153,8 +146,8 @@ function helperFunction(target: any, methodName: string, route: string, httpRequ
  * specified in its parameter
  */
 export function Get(route: string) {
-    return  (target: any, methodName: string) => {
-        helperFunction(target,methodName,route,HttpRequestMethod.GET);
+    return (target: any, methodName: string) => {
+        helperFunction(target, methodName, route, HttpRequestMethod.GET);
     };
 }
 
@@ -163,7 +156,7 @@ export function Get(route: string) {
  * @howToUse
  * ```
  * @Post("/user")
- * addUser(req : Request, res : Response){
+ * addUser(req: Request, res: Response) {
  *  // code here
  * }
  * ```
@@ -172,9 +165,8 @@ export function Get(route: string) {
  * specified in its parameter
  */
 export function Post(route: string) {
-    
-    return  (target: any, methodName: string) => {
-        helperFunction(target,methodName,route,HttpRequestMethod.POST);
+    return (target: any, methodName: string) => {
+        helperFunction(target, methodName, route, HttpRequestMethod.POST);
     };
 }
 
@@ -183,7 +175,7 @@ export function Post(route: string) {
  * @howToUse
  * ```
  * @Put("/user")
- * updateUser(req : Request, res : Response){
+ * updateUser(req: Request, res: Response) {
  *  // code here
  * }
  * ```
@@ -192,9 +184,8 @@ export function Post(route: string) {
  * specified in its parameter
  */
 export function Put(route: string) {
-    
     return  (target: any, methodName: string) => {
-        helperFunction(target,methodName,route,HttpRequestMethod.PUT);
+        helperFunction(target, methodName, route, HttpRequestMethod.PUT);
     };
 }
 
@@ -203,7 +194,7 @@ export function Put(route: string) {
  * @howToUse
  * ```
  * @Delete("/user/:id")
- * deleteUser(req : Request, res : Response){
+ * deleteUser(req: Request, res: Response) {
  *  // code here
  * }
  * ```
@@ -212,44 +203,42 @@ export function Put(route: string) {
  * specified in its parameter
  */
 export function Delete(route: string) {
-    
     return  (target: any, methodName: string) => {
-        helperFunction(target,methodName,route,HttpRequestMethod.DELETE);
+        helperFunction(target, methodName, route, HttpRequestMethod.DELETE);
     };
 }
 
 /**
  * @whatItDoes parameter decorator indicates that the parameter should be bound
- * to the web request body 
+ * to the web request body
  * @howToUse
  * ```
  * @Put("/user")
- * updateUser(req : Request, res : Response, @RequestBody newUser){
+ * updateUser(req: Request, res: Response, @RequestBody newUser) {
  *  // code here
  * }
  * ```
  * @description
  * the parameter will be bound to the request body
  */
-export function RequestBody(target: Object, methodName: string, parameterIndex: number) : void{
-    let controllerName = target.constructor['name'];
+export function RequestBody(target: Object, methodName: string, parameterIndex: number): void {
+    let controllerName = target.constructor["name"];
     let controllerHandler = Container.controllerHandlers[controllerName];
-    
-    if(!controllerHandler){
+
+    if (!controllerHandler) {
        controllerHandler = new ControllerHandler();
     }
 
-    let methodHandler : MethodHandler = controllerHandler.methodsHandlers[methodName];
+    let methodHandler: MethodHandler = controllerHandler.methodsHandlers[methodName];
 
-    if(!methodHandler){
+    if (!methodHandler) {
         methodHandler = new MethodHandler();
     }
 
-    let paramName : string = getFunctionParametersNames(target[methodName])[parameterIndex];
+    let paramName: string = getFunctionParametersNames(target[methodName])[parameterIndex];
     methodHandler.requestBodyParams[paramName] = true;
     controllerHandler.methodsHandlers[methodName] = methodHandler;
     Container.controllerHandlers[controllerName] = controllerHandler;
-   
 }
 
 /**
@@ -259,36 +248,36 @@ export function RequestBody(target: Object, methodName: string, parameterIndex: 
  * ```
  * @Get("/user/:id")
  * @ResponseBody
- * updateUser(req : Request,id : number) : User{
+ * updateUser(req: Request,id: number): User{
  *  // code here
  *  return new User(125,"jhon",35);
  * }
  * ```
  * @description
- * the return value will be bound to the response body, if the return value 
+ * the return value will be bound to the response body, if the return value
  * is type of Promise the holded value will be sent
  */
-export function ResponseBody(target: any, methodName: string) : void{
-    let controllerName = target.constructor['name'];
+export function ResponseBody(target: any, methodName: string): void {
+    let controllerName = target.constructor["name"];
     let controllerHandler = Container.controllerHandlers[controllerName];
-    
-    if(!controllerHandler){
+
+    if (!controllerHandler) {
        controllerHandler = new ControllerHandler();
     }
 
     let methodHandler = controllerHandler.methodsHandlers[methodName];
 
-    if(!methodHandler){
+    if (!methodHandler) {
         methodHandler = new MethodHandler();
     }
- 
+
     let type = Reflect.getMetadata("design:returntype", target, methodName);
-    
-    if(!type){
+
+    if (!type) {
         throw controllerName + "." + methodName + " return type must be specified";
     }
+
     methodHandler.hasResponseBodyDecorator = true;
     controllerHandler.methodsHandlers[methodName] = methodHandler;
     Container.controllerHandlers[controllerName] = controllerHandler;
-    
 }

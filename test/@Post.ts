@@ -1,27 +1,23 @@
 import { Back, Controller, Service, Get, Post, Put, Route, Request, Response, RequestBody, ResponseBody } from "../index";
-var request = require('supertest')
-    , assert = require('assert');
+const request = require("supertest");
+const assert = require("assert");
 import "mocha";
 import bodyParser = require("body-parser");
 
-describe('@Post', function () {
-
-    describe('@Post simple', function () {
-
-        it('should be equal', function (done) {
+describe("@Post", () => {
+    describe("@Post simple", () => {
+        it("should be equal", done => {
             Back.reset();
 
             @Controller
             @Route("/product")
             class ProductController {
-
-                constructor() { }
+                constructor() {}
 
                 @Post("/")
                 someMethod(req: Request, res: Response) {
                     res.end("I just received data");
                 }
-
             }
 
             let app = Back.express();
@@ -31,33 +27,27 @@ describe('@Post', function () {
 
             Back.prepare(app);
             request(app)
-                .post('/product/')
+                .post("/product/")
                 .expect("I just received data", done);
-
         });
     });
 
-
-
-    describe('@Post with body', function () {
-
-        it('should be equal', function (done) {
+    describe("@Post with body", () => {
+        it("should be equal", done => {
             Back.reset();
 
             @Controller
             @Route("/product")
             class ProductController {
-
-                constructor() { }
+                constructor() {}
 
                 @Post("/:id")
-                someMethod(req : Request, res : Response, id : number,@RequestBody product) {
-                    assert.equal(id,45);
-                    assert.deepEqual({id : 45 , name : 'bimo', price :45}, req.body);
-                    assert.deepEqual({id : 45 , name : 'bimo', price :45}, product);
+                someMethod(req: Request, res: Response, id: number, @RequestBody product) {
+                    assert.equal(id, 45);
+                    assert.deepEqual({id: 45 , name: "bimo", price: 45}, req.body);
+                    assert.deepEqual({id: 45 , name: "bimo", price: 45}, product);
                     res.end("I just received data");
                 }
-
             }
 
             let app = Back.express();
@@ -67,14 +57,9 @@ describe('@Post', function () {
 
             Back.prepare(app);
             request(app)
-                .post('/product/45')
-                .send({id : 45 , name : 'bimo', price : 45 })
+                .post("/product/45")
+                .send({id: 45 , name: "bimo", price: 45 })
                 .expect("I just received data", done);
-
         });
     });
- 
-
-
-
 });

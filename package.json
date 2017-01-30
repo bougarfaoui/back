@@ -3,7 +3,8 @@
   "version": "1.0.3",
   "main": "dist/index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "lint": "tslint --project tsconfig.json"
   },
   "author": "Bougarfaoui El Houcine",
   "license": "ISC",
@@ -21,10 +22,12 @@
     "supertest": "^2.0.1",
     "typescript": "^2.1.5"
   },
+  "devDependencies": {
+    "tslint": "^4.4.2"
+  },
   "directories": {
     "test": "test"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bougarfaoui/back.git"

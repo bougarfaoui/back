@@ -1,63 +1,59 @@
-
-
 import { ControllerHandler } from "./handlers/controllerHandler";
-import { MethodHandler } from './handlers/methodHandler';
-
+import { MethodHandler } from "./handlers/methodHandler";
 
 /**
- * @whatItDoes holds all the components (controllers , services ,...) and instances  
+ * @whatItDoes holds all the components (controllers, services, ...) and instances
  */
 
-export class Container{
+export class Container {
     /**
      * Array of components , each component holds its function constructor
-     * and its dependencies 
+     * and its dependencies
      */
-    static components : any = [];
+    static components: any = [];
+
     /**
-     * see ../handlers/controllerHandler.ts 
+     * see ../handlers/controllerHandler.ts
      */
-    static controllerHandlers : ControllerHandler[] = [];
+    static controllerHandlers: ControllerHandler[] = [];
+
     /**
-     * each component (service ,controller,...) instansiated will be pushed here 
+     * each component (service ,controller,...) instansiated will be pushed here
      */
-    static instances : any[] = [];
+    static instances: any[] = [];
+
     /**
      * get an instance of the component
      */
-    static get(token : string | Function){
+    static get(token: string | Function) {
+        let tokenName: string;
 
-        let tokenName : string;
-     
-        if(typeof token !== 'string'){
-            tokenName = token['name'];
-        }else{
+        if (typeof token !== "string") {
+            tokenName = token["name"];
+        }
+        else {
             tokenName = token;
         }
-        
-        if(this.instances[tokenName]){
+
+        if (this.instances[tokenName]) {
             return this.instances[tokenName];
         }
 
         let injectable = this.components[tokenName];
 
-        if(injectable){
-            
-            let _dependencies : any[] = injectable.dependencies;
-            let _constructor : any = injectable._constructor; 
-            
-            if(_dependencies.length > 0){
-                 
-                let dependecies = _dependencies.map( dependency => this.get(dependency) );
-                
+        if (injectable) {
+            let _dependencies: any[] = injectable.dependencies;
+            let _constructor: any = injectable._constructor;
+
+            if (_dependencies.length > 0) {
+                let dependecies = _dependencies.map(dependency => this.get(dependency));
+
                 return this.instances[tokenName] = new _constructor(...dependecies);
             }
-             
+
             return this.instances[tokenName] = new _constructor();
         }
 
         return undefined;
     }
-
 }
-
