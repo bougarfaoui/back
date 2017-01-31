@@ -75,7 +75,7 @@ export function Route(route: string) {
 export function Service(target: Function) {
     Container.components[target["name"]] = {
         _constructor: target,
-        dependencies: Reflect.getMetadata("design:paramtypes", target);
+        dependencies: Reflect.getMetadata("design:paramtypes", target)
     };
 }
 
@@ -94,7 +94,7 @@ export function Service(target: Function) {
 export function Injectable(target: Function) {
     Container.components[target["name"]] = {
         _constructor: target,
-        dependencies: Reflect.getMetadata("design:paramtypes", target);
+        dependencies: Reflect.getMetadata("design:paramtypes", target)
     };
 }
 

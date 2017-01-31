@@ -1,4 +1,4 @@
-import { Back, Controller, Service, Get, Post, Put, Route, Request, Response, RequestBody, ResponseBody } from "../index";
+import { Back, Controller, Post, Route, Request, Response, RequestBody, ResponseBody } from "../index";
 const request = require("supertest");
 const assert = require("assert");
 import "mocha";
@@ -13,7 +13,7 @@ describe("@RequestBody", () => {
         ) {};
     }
 
-    it("should get the product", done => {
+    it("shoul the product", done => {
         Back.reset();
 
         @Controller

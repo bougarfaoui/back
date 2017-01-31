@@ -46,7 +46,7 @@ export class Request {
     is: Function;
     param: Function;
     range: Function;
-}
+};
 
 /**
  * Response has the same properties of Response object in Express.js
@@ -76,4 +76,4 @@ export class Response {
     status: Function;
     type: Function;
     vary: Function;
-}
+};

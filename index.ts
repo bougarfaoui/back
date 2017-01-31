@@ -1,5 +1,6 @@
-import { express } from "express";
+import * as express from "express";
 import { Container } from "./container";
+import { HttpRequestMethod } from "./_http/http";
 
 export { HttpRequestMethod, Request, Response } from "./_http/http";
 export { Service, Controller, Get, Post, Put, Delete, Route, RequestBody, ResponseBody } from "./decorators/decorators";
