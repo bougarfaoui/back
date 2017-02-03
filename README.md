@@ -8,14 +8,12 @@
 back.js is a new MVC framework for node written totally in Typescript and inspired from the popular spring MVC in java,
 it has a system of dependency injection and it's easy to use. Back.js is very new, it's not ready for production yet and needs some contributions.
 
-<<<<<<< HEAD
+
 :star2: There are a lot of javascript frameworks for node.js out there. This one is different :
  - Provides great TypeScript developer experience
  - Simple and flexible API
  - MVC Architecture
- 
-=======
->>>>>>> 9331b7b4ea2d0b546dc24d4dc34c1a47e6819648
+
 ## Quick start
 
 ```
