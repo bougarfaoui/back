@@ -1,8 +1,16 @@
-before_script:
-  - npm install
-script:
-  - tsc; npm test
 language: node_js
+
 node_js:
-  - "4"
-  - "5.1"
+  - "6"
+  - "7"
+
+before_install:
+  - npm install -g npm
+  - npm install -g typescript
+  - npm install -g tslint
+  - npm install
+
+script:
+  - tsc
+  - npm run lint
+  - npm test

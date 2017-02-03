@@ -1,27 +1,25 @@
-import { Back, Controller, Service, Get, Post, Put, Route, Request, Response, RequestBody, ResponseBody } from "../index";
-var request = require('supertest')
-    , assert = require('assert');
+import { Back, Controller, Post, Route, Request, Response, RequestBody, ResponseBody } from "../index";
+const request = require("supertest");
+const assert = require("assert");
 import "mocha";
 import bodyParser = require("body-parser");
 
-describe('@RequestBody', function () {
+describe("@RequestBody", () => {
     class Product {
         constructor(
             private id: number,
             private label: string,
             private price: number
-        ) { };
-
+        ) {};
     }
 
-    it('should get the product', function (done) {
+    it("shoul the product", done => {
         Back.reset();
 
         @Controller
         @Route("/product")
         class ProductController {
-
-            constructor() { }
+            constructor() {}
 
             @Post("/")
             @ResponseBody
@@ -29,7 +27,6 @@ describe('@RequestBody', function () {
                 assert.deepEqual({ id: 1, label: "Bimo", price: 45 }, product);
                 return "done";
             }
-
         }
 
         let app = Back.express();
@@ -39,14 +36,8 @@ describe('@RequestBody', function () {
 
         Back.prepare(app);
         request(app)
-            .post('/product/')
+            .post("/product/")
             .send({ id: 1, label: "Bimo", price: 45 })
             .expect(JSON.stringify("done"), done);
-
     });
-
-
-
-
-
 });
