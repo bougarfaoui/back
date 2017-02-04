@@ -170,9 +170,9 @@ the second one ```addProduct``` has ```@ResponseBody``` decorator on its paramet
 
 1- Fork
 
-2- Do your magic
+2- pull request 
 
-3- pull request :smile:
+3- Do your magic :smile:
 
 ## License
 
