@@ -19,4 +19,6 @@ export class ControllerHandler {
      * MethodHandler look methodHandler.ts file
      */
     methodsHandlers: MethodHandler[] = [];
+
+    isRest: boolean = false;
 }

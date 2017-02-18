@@ -1,15 +1,20 @@
 import * as express from "express";
 import { Container } from "./container";
 import { HttpRequestMethod } from "./_http/http";
-
+import { splitCamelCase } from "./utils/utils";
 export { HttpRequestMethod, Request, Response } from "./_http/http";
-export { Service, Controller, Get, Post, Put, Delete, Route, RequestBody, ResponseBody } from "./decorators/decorators";
+export {  Controller, Get, Post, Put, Delete, Route, RequestBody, ResponseBody } from "./decorators/decorators";
+export { Service } from "./decorators/Service";
+export { BackApplication } from "./BackApplication";
 
 export class Back {
     static express = express;
     static Container = Container;
+    static configs: {use: any[], set: any};
 
     static prepare(app) {
+        Back.applyConfigs(app);
+
         for (let controller in Container.controllerHandlers) {
             let controllerHandler = Container.controllerHandlers[controller];
             let router = express.Router();
@@ -40,10 +45,23 @@ export class Back {
             app.use(controllerHandler.route, router);
         }
     }
-
+    // for testing
     static reset () {
         Back.Container.instances = [];
         Back.Container.controllerHandlers = [];
         Back.Container.components = [];
+    }
+
+    static applyConfigs(app) {
+        Back
+            .configs
+            .use
+            .forEach( middleware => {
+               app.use(middleware);
+            });
+        for (let setting in Back.configs.set) {
+            let _setting = splitCamelCase(setting).toLocaleLowerCase();
+            app.set(_setting, Back.configs.set[setting]);
+        }
     }
 }

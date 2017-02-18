@@ -2,7 +2,7 @@ import { Container } from "../container";
 import { ControllerHandler } from "../handlers/controllerHandler";
 import { MethodHandler } from "../handlers/methodHandler";
 import { HttpRequestMethod } from "../_http/http";
-
+import { Injectable } from "injection-js";
 import "reflect-metadata";
 import getFunctionParametersNames =  require("get-parameter-names");
 
@@ -26,10 +26,24 @@ export function Controller(target: Function) {
         controllerHandler = new ControllerHandler();
     }
 
-    Container.components[controllerName] = {
-        _constructor: target,
-        dependencies: dependencies
-    };
+    Injectable().call(null, target);
+    Container.components[controllerName] = target;
+}
+
+export function RestController(target: Function){
+    const dependencies = Reflect.getMetadata("design:paramtypes", target);
+
+    let controllerName = target["name"];
+    let controllerHandler: ControllerHandler = Container.controllerHandlers[controllerName];
+
+    if (!controllerHandler) {
+        controllerHandler = new ControllerHandler();
+    }
+
+    controllerHandler.isRest = true;
+
+    Injectable().call(null, target);
+    Container.components[controllerName] = target;
 }
 
 /**
@@ -57,44 +71,6 @@ export function Route(route: string) {
         }
 
         controllerHandler.route = route;
-    };
-}
-
-/**
- * @whatItDoes class Decorator used to indicates that the class is injectable
- * @howToUse
- * ```
- * @Service
- * class productService {
- *  // code here
- * }
- * ```
- * @description
- * A class with decorator can injected in other class's constructor
- */
-export function Service(target: Function) {
-    Container.components[target["name"]] = {
-        _constructor: target,
-        dependencies: Reflect.getMetadata("design:paramtypes", target)
-    };
-}
-
-/**
- * @whatItDoes the as the Service decorator
- * @howToUse
- * ```
- * @Injectable
- * class productService {
- *  // code here
- * }
- * ```
- * @description
- * A class with decorator can injected in other class's constructor
- */
-export function Injectable(target: Function) {
-    Container.components[target["name"]] = {
-        _constructor: target,
-        dependencies: Reflect.getMetadata("design:paramtypes", target)
     };
 }
 

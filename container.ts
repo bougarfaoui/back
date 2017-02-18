@@ -1,5 +1,7 @@
 import { ControllerHandler } from "./handlers/controllerHandler";
 import { MethodHandler } from "./handlers/methodHandler";
+import { ReflectiveInjector,Injectable } from 'injection-js';
+import "reflect-metadata";
 
 /**
  * @whatItDoes holds all the components (controllers, services, ...) and instances
@@ -26,6 +28,7 @@ export class Container {
      * get an instance of the component
      */
     static get(token: string | Function) {
+
         let tokenName: string;
 
         if (typeof token !== "string") {
@@ -35,23 +38,20 @@ export class Container {
             tokenName = token;
         }
 
-        if (this.instances[tokenName]) {
-            return this.instances[tokenName];
+        if (Container.instances[tokenName]) {
+            return Container.instances[tokenName];
         }
 
-        let injectable = this.components[tokenName];
+        let component = Container.components[tokenName];
 
-        if (injectable) {
-            let _dependencies: any[] = injectable.dependencies;
-            let _constructor: any = injectable._constructor;
+        if (component) {
+            let _components = Object.keys(Container.components)
+                                    .map(function(key){
+                                        return Container.components[key];
+                                    });
 
-            if (_dependencies.length > 0) {
-                let dependecies = _dependencies.map(dependency => this.get(dependency));
-
-                return this.instances[tokenName] = new _constructor(...dependecies);
-            }
-
-            return this.instances[tokenName] = new _constructor();
+            const injector = ReflectiveInjector.resolveAndCreate(_components);
+            return this.instances[tokenName] = injector.get(component);
         }
 
         return undefined;

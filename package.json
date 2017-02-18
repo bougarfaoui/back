@@ -17,12 +17,14 @@
     "es6-promise": "^4.0.5",
     "express": "^4.14.0",
     "get-parameter-names": "^0.3.0",
+    "injection-js": "^1.0.3",
     "mocha": "^3.2.0",
     "reflect-metadata": "^0.1.9",
     "supertest": "^2.0.1",
     "typescript": "^2.1.5"
   },
   "devDependencies": {
+    "@types/core-js": "^0.9.35",
     "tslint": "^4.4.2"
   },
   "directories": {
