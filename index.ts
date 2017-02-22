@@ -3,7 +3,13 @@ import { Container } from "./container";
 import { HttpRequestMethod } from "./_http/http";
 import { splitCamelCase } from "./utils/utils";
 export { HttpRequestMethod, Request, Response } from "./_http/http";
-export {  Controller, Get, Post, Put, Delete, Route, RequestBody, ResponseBody } from "./decorators/decorators";
+export { Get, Post, Put, Delete } from "./decorators/HttpMethodDecorators";
+export { ResponseBody } from "./decorators/ResponseBody";
+export { RequestBody } from "./decorators/RequestBody";
+export { PathVariable } from "./decorators/PathVariable";
+export { Route } from "./decorators/Route";
+export { Controller } from "./decorators/Controller";
+export { RestController } from "./decorators/RestController";
 export { Service } from "./decorators/Service";
 export { BackApplication } from "./BackApplication";
 
