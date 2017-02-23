@@ -1,5 +1,5 @@
 import { Container } from "../container";
-import { Injectable } from 'injection-js';
+import { Injectable } from "injection-js";
 
 /**
  * @whatItDoes class Decorator used to indicates that the class is injectable
@@ -15,5 +15,5 @@ import { Injectable } from 'injection-js';
  */
 export function Repository(target: Function) {
     Container.components[target["name"]] = target;
-    Injectable().call(null,target);
+    Injectable().call(null, target);
 }

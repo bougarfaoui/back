@@ -1,6 +1,6 @@
 import { ControllerHandler } from "./handlers/controllerHandler";
 import { MethodHandler } from "./handlers/methodHandler";
-import { ReflectiveInjector,Injectable } from 'injection-js';
+import { ReflectiveInjector, Injectable } from 'injection-js';
 import "reflect-metadata";
 
 /**
