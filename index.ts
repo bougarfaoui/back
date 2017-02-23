@@ -59,6 +59,7 @@ export class Back {
             .forEach( middleware => {
                app.use(middleware);
             });
+            
         for (let setting in Back.configs.set) {
             let _setting = splitCamelCase(setting).toLocaleLowerCase();
             app.set(_setting, Back.configs.set[setting]);

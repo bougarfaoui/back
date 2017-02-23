@@ -4,7 +4,8 @@ import { MethodHandler } from "../handlers/methodHandler";
 import { HttpRequestMethod } from "../_http/http";
 import { Injectable } from "injection-js";
 import "reflect-metadata";
-import getFunctionParametersNames =  require("get-parameter-names");
+import getFunctionParametersNames = require("get-parameter-names");
+import { Back } from "../index";
 
 /**
  * @whatItDoes class Decorator used to mark a class as a controller
@@ -256,4 +257,11 @@ export function ResponseBody(target: any, methodName: string): void {
     methodHandler.hasResponseBodyDecorator = true;
     controllerHandler.methodsHandlers[methodName] = methodHandler;
     Container.controllerHandlers[controllerName] = controllerHandler;
+}
+
+
+export function ViewEngine(engine: any) {
+    return (target: Function) => {
+        Back.configs.set.push(engine);
+    };
 }
