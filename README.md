@@ -1,9 +1,14 @@
-
-<img alt="Back" title="Back" src="http://gdurl.com/58Bm" width="280" height="100">
-
 :sparkles: Back.js: MVC Framework for Node.js written in Typescript and built on top of Express.js :sparkles:
 
 [![Build Status](https://travis-ci.org/bougarfaoui/back.svg?branch=master)](https://travis-ci.org/bougarfaoui/back)
+
+
+<p align="center">
+
+  <img  height="300" src="http://i67.tinypic.com/2h807k1.png" >
+
+</p>
+
 
 back.js is a new MVC framework for node written totally in Typescript and inspired from the popular spring MVC in java,
 it has a system of dependency injection and it's easy to use. Back.js is very new, it's not ready for production yet and needs some contributions.
