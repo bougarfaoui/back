@@ -1,3 +1,6 @@
+**NOTE: This project is deprecated and no longer being actively developed or maintained**
+
+
 :sparkles: Back.js: MVC Framework for Node.js written in Typescript and built on top of Express.js :sparkles:
 
 [![Build Status](https://travis-ci.org/bougarfaoui/back.svg?branch=master)](https://travis-ci.org/bougarfaoui/back)
